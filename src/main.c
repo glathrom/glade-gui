@@ -1,27 +1,20 @@
 #include <stdlib.h>
-#include <sys/types.h>
-#include <signal.h>
-#include <unistd.h>
-#include <string.h>
+#include <stdio.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
-#include <math.h>
-#include <ctype.h>
 
-
-GtkWidget   *window;
-GtkWidget   *fixed1;
-GtkWidget   *button1;
-GtkWidget   *label1;
-GtkBuilder   *builder;
-
-void on_button1_clicked(GtkButton *b);
+void on_button1_clicked(GtkButton *, GtkLabel *);
 
 int main(int argc, char **argv){
-    GtkWidget *window;
+    GtkWidget    *window;
+    GtkWidget    *fixed1;
+    GtkWidget    *button1;
+    GtkWidget    *label1;
+    GtkBuilder   *builder;
     
     gtk_init(&argc, &argv);
 
-    builder = gtk_builder_new_from_file("res/gui/mywindow.glade");
+    builder = gtk_builder_new_from_file("../res/gui/mywindow.glade");
 
     window = (GtkWidget *) gtk_builder_get_object(builder, "window");
 
@@ -37,10 +30,13 @@ int main(int argc, char **argv){
 
     gtk_main();
 
-    return EXIT_SUCCESS;
+    return 0;
 }
 
 
-void on_button1_clicked(GtkButton *b){
-    gtk_label_set_text(GTK_LABEL(label1), (const gchar*) "Hello World");
+void on_button1_clicked(GtkButton *b, GtkLabel *label){
+    GtkWidget* parent = gtk_widget_get_parent((GtkWidget *) b);
+    printf("parent name = %s\n", gtk_widget_get_name(parent)); 
+
+    gtk_label_set_text(label, "Hello World");
 }

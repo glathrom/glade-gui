@@ -23,6 +23,7 @@ import ycm_core
 # CHANGE THIS LIST OF FLAGS. YES, THIS IS THE DROID YOU HAVE BEEN LOOKING FOR.
 flags = [
 '-Wall',
+'-Wpedantic',
 '-Wextra',
 #'-Werror',
 '-fexceptions',
@@ -45,9 +46,10 @@ flags = [
 '-I', '/usr/include/c++/9',
 '-I', '/usr/include/x86_64-linux-gnu',
 '-I', '/usr/include/gtk-3.0',
-'-I', '/usr/local/include/',
-'-I', './include/',
-'-I', f'os.environ["HOME"]/.local/include/',
+'-I', '/usr/include/glib-2.0',
+'-I', '/usr/local/include',
+'-I', './include',
+'-I', f'os.environ["HOME"]/.local/include',
 ]
 
 
