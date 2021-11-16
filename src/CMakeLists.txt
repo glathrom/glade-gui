@@ -7,6 +7,16 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/../include
 )
 
+include(FindPkgConfig)
+
+pkg_check_modules(gtk REQUIRED gtk+-3.0)
+
+message(STATUS "gtk libraries: ${gtk_LIBRARIES}")
+message(STATUS "gtk compiler flags: ${gtk_CFLAGS}")
+message(STATUS "gtk lib paths: ${gtk_LIBRARY_DIRS}")
+message(STATUS "gtk linker flags: ${gtk_LDFLAGS}")
+
+
 ######################
 # compiled libraries
 ######################
@@ -17,75 +27,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../lib)
 message(STATUS "${CMAKE_SOURCE_DIR}")
 message(STATUS "${CMAKE_CURRENT_SOURCE_DIR}")
 
-find_library(gtk NAMES gtk-3 PATH /usr/lib/x86_64-linux-gnu)
-find_library(gdk NAMES gdk-3 PATH /usr/lib/x86_64-linux-gnu)
-find_library(pangocairo NAMES pangocairo-1.0 PATH /usr/lib/x86_64-linux-gnu)
-find_library(pango NAMES pango-1.0 PATH /usr/lib/x86_64-linux-gnu)
-find_library(harf NAMES  harfbuzz PATH /usr/lib/x86_64-linux-gnu)
-find_library(atk NAMES atk-1.0 PATH /usr/lib/x86_64-linux-gnu)
-find_library(cairoobject NAMES cairo-gobject PATH /usr/lib/x86_64-linux-gnu)
-find_library(cairo NAMES cairo PATH /usr/lib/x86_64-linux-gnu)
-find_library(pixbuf NAMES gdk_pixbuf-2.0 PATH /usr/lib/x86_64-linux-gnu)
-find_library(gio NAMES gio-2.0 PATH /usr/lib/x86_64-linux-gnu)
-find_library(gobject NAMES gobject-2.0 PATH /usr/lib/x86_64-linux-gnu)
-find_library(glib NAMES glib-2.0 PATH /usr/lib/x86_64-linux-gnu)
-
-message(STATUS "Found gtk-3: ${gtk}")
-message(STATUS "Found gdk-3: ${gdk}")
-message(STATUS "Found pangocairo-1.0: ${pangocairo}")
-message(STATUS "Found pango-1.0: ${pango}")
-message(STATUS "Found harfbuz: ${harf}")
-message(STATUS "Found atk-1.0: ${atk}")
-message(STATUS "Found cairo-gobject: ${cairoobject}")
-message(STATUS "Found cairo: ${cairo}")
-message(STATUS "Found pixbuf-2.0: ${pixbuf}")
-message(STATUS "Found gio-2.0: ${gio}")
-message(STATUS "Found gobject-2.0: ${gobject}")
-message(STATUS "Found glib-2.0: ${glib}")
 
 add_executable(main main.c)
-target_include_directories(main PUBLIC 
-    /usr/include/gtk-3.0
-    /usr/include/at-spi2-atk/2.0 
-    /usr/include/at-spi-2.0 
-    /usr/include/dbus-1.0 
-    /usr/lib/x86_64-linux-gnu/dbus-1.0/include 
-    /usr/include/gtk-3.0 
-    /usr/include/gio-unix-2.0 
-    /usr/include/cairo 
-    /usr/include/pango-1.0 
-    /usr/include/fribidi 
-    /usr/include/harfbuzz 
-    /usr/include/atk-1.0 
-    /usr/include/cairo 
-    /usr/include/pixman-1 
-    /usr/include/uuid 
-    /usr/include/freetype2 
-    /usr/include/libpng16 
-    /usr/include/gdk-pixbuf-2.0 
-    /usr/include/libmount 
-    /usr/include/blkid 
-    /usr/include/glib-2.0 
-    /usr/lib/x86_64-linux-gnu/glib-2.0/include
-)
-
-target_link_libraries(main 
-    ${gtk}
-    ${gkd}
-    ${pangocairo}
-    ${harf}
-    ${atk}
-    ${cairoobject}
-    ${cairo}
-    ${pixbuf}
-    ${gio}
-    ${gobject}
-    ${glib}
-)
-
+target_compile_options(main PUBLIC ${gtk_CFLAGS})
+target_link_libraries(main ${gtk_LDFLAGS})
 target_link_options(main BEFORE PUBLIC "-pthread;-rdynamic")
-
-
 
 # THIS DID NOT WORK ##########################################
 #list(APPEND CMAKE_MODULE_PATH "/usr/lib/x86_64-linux-gnu")

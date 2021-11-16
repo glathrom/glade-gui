@@ -3,7 +3,6 @@ project(gui)
 set(CMAKE_CXX_STANDARD 11)
 
 include(FindPkgConfig)
-#set(CMAKE_VERBOSE_MAKEFILE ON)
 
 ######################################################
 # setting paths for libraries and executable outputs
